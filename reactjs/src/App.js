@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import { Map, PlacesList } from './components';
+import { useJsApiLoader } from '@react-google-maps/api';
 
 function App() {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyBFBp-CdY4Jv4gvRLOw52kXMkVFfbP6Tl8',
+    libraries: ['places'],
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edita <code>src/App.js</code> y guarda para ver cambios.
-        </p>
-        <a
-          className="App-link"
-          href="https://codealo.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Aprende con Codealo
-        </a>
-      </header>
+    <div className='App'>
+      {isLoaded && (
+        <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
+          <PlacesList />
+          <Map />
+        </div>
+      )}
     </div>
   );
 }
