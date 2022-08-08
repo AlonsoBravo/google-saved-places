@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const Map = () => {
+  const [mapCenter, setMapCenter] = useState({ lat: -3.745, lng: -38.523 });
+
+  const selectedPlace = useSelector(
+    ({ PlacesList }) => PlacesList.selectedPlace[0]?.geometry.location
+  );
+
+  useEffect(() => {
+    if (selectedPlace) {
+      setMapCenter({ lat: selectedPlace.lat(), lng: selectedPlace.lng() });
+    }
+  }, [selectedPlace]);
+
   return (
     <GoogleMap
       mapContainerStyle={{ width: '100%' }}
-      center={{ lat: -3.745, lng: -38.523 }}
-      zoom={10}
-    ></GoogleMap>
+      center={mapCenter}
+      zoom={selectedPlace ? 15 : 10}
+    >
+      {selectedPlace && (
+        <Marker
+          position={{
+            lat: selectedPlace.lat(),
+            lng: selectedPlace.lng(),
+          }}
+        />
+      )}
+    </GoogleMap>
   );
 };
 

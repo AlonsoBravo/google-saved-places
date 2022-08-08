@@ -1,10 +1,10 @@
 import './App.css';
-import { Map, PlacesList } from './components';
+import { Map, PlacesList, PlaceInfo } from './components';
 import { useJsApiLoader } from '@react-google-maps/api';
 
 function App() {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyBFBp-CdY4Jv4gvRLOw52kXMkVFfbP6Tl8',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places'],
   });
 
@@ -16,6 +16,7 @@ function App() {
           <Map />
         </div>
       )}
+      <PlaceInfo />
     </div>
   );
 }
