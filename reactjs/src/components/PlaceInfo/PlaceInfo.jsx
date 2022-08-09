@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { onSelectedPlace } from '../../redux/actions/PlacesListActions';
+import {
+  onSelectedPlace,
+  onSavePlace,
+} from '../../redux/actions/PlacesListActions';
 import './styles.css';
 
 const PlaceInfo = () => {
+  const [placeNote, setPlaceNote] = useState('');
+
   const selectedPlace = useSelector(
-    ({ PlacesList }) => PlacesList.selectedPlace[0]
+    ({ PlacesList }) => PlacesList.selectedPlace
   );
   const dispatch = useDispatch();
 
@@ -18,18 +23,33 @@ const PlaceInfo = () => {
     >
       <div
         id='place-info-container-close'
-        onClick={() => dispatch(onSelectedPlace([]))}
+        onClick={() => dispatch(onSelectedPlace(null))}
       >
         <span>x</span>
       </div>
-      <h1>place info</h1>
+      <h3>{selectedPlace?.formatted_address}</h3>
+      {selectedPlace?.website && (
+        <a href={selectedPlace?.website} target='_blank' rel='noreferrer'>
+          Visit web site
+        </a>
+      )}
+
       <div id='place-info-note-container'>
-        <textarea id='place-info-note' placeholder='You can add a note...' />
+        <textarea
+          id='place-info-note'
+          placeholder='You can add a note...'
+          value={selectedPlace?.placeNote || placeNote}
+          onChange={(e) => setPlaceNote(e.target.value)}
+        />
         <button
           id='place-info-save-button'
           type='button'
-          class='btn btn-primary'
-          onClick={() => {}}
+          className='btn btn-primary'
+          onClick={() => {
+            dispatch(onSavePlace({ ...selectedPlace, placeNote }));
+
+            setPlaceNote('');
+          }}
         >
           Save place
         </button>

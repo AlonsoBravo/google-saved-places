@@ -27,3 +27,52 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
+
+#place-list-empty {
+  font-size: 15px;
+  color: #cecccc;
+  padding: 5px 10px;
+}
+
+.places-list-item-container {
+  display: flex;
+  align-self: stretch;
+  justify-content: flex-start;
+  flex-direction: row;
+  border: 1px solid #cecccc;
+  padding: 10px 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.places-list-item-container p {
+  font-size: 15px;
+  color: #b8b7b7;
+}
+
+.places-list-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+}
+
+.places-list-item-actions i:hover {
+  cursor: pointer;
+}
+
+.places-list-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.trash-icon {
+  color: #ee685c;
+  font-size: 20px;
+}
+
+.pin-icon {
+  color: #5390f4;
+  font-size: 20px;
+}

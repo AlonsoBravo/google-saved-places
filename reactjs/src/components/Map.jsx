@@ -6,7 +6,7 @@ const Map = () => {
   const [mapCenter, setMapCenter] = useState({ lat: -3.745, lng: -38.523 });
 
   const selectedPlace = useSelector(
-    ({ PlacesList }) => PlacesList.selectedPlace[0]?.geometry.location
+    ({ PlacesList }) => PlacesList.selectedPlace?.geometry.location
   );
 
   useEffect(() => {
