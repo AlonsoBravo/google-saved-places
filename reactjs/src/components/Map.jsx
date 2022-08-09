@@ -19,13 +19,13 @@ const Map = () => {
     <GoogleMap
       mapContainerStyle={{ width: '100%' }}
       center={mapCenter}
-      zoom={selectedPlace ? 15 : 10}
+      zoom={15}
     >
       {selectedPlace && (
         <Marker
           position={{
-            lat: selectedPlace.lat(),
-            lng: selectedPlace.lng(),
+            lat: selectedPlace?.lat(),
+            lng: selectedPlace?.lng(),
           }}
         />
       )}
