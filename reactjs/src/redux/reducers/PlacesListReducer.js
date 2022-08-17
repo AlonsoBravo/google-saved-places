@@ -4,12 +4,14 @@ import {
   ON_SELECTED_PLACE,
   ON_SUCCESS_LOAD_PLACES,
   ON_SAVE_PLACE,
+  ON_ERROR_SHOW_PLACE,
 } from '../actions/PlacesListActions';
 
 const INITIAL_STATE = {
   onStartLoadPlaces: false,
   selectedPlace: null,
   selectedPlaces: [],
+  errorMessage: null,
 };
 
 const onStateChange = ({ state, payload, error }) => ({
@@ -29,17 +31,13 @@ const onStateChange = ({ state, payload, error }) => ({
     );
 
     if (selectedPlace) {
-      return { ...state, selectedPlace };
+      return { ...state, selectedPlace, errorMessage: null };
     }
 
-    return { ...state, selectedPlace: payload[0] };
+    return { ...state, selectedPlace: payload[0], errorMessage: null };
   },
   [ON_SAVE_PLACE]: () => {
-    const index = [...state.selectedPlaces].findIndex(
-      (place) => place.place_id === payload.place_id
-    );
-
-    if (index === -1) {
+    if ([...state.selectedPlaces].length === 0) {
       return {
         ...state,
         selectedPlace: null,
@@ -47,13 +45,28 @@ const onStateChange = ({ state, payload, error }) => ({
       };
     }
 
-    const selectedPlaces = ([...state.selectedPlaces][index] = payload);
+    const selectedPlaces = [...state.selectedPlaces].map((place) => {
+      if (place.place_id === payload.place_id) {
+        return { ...place, ...payload };
+      }
+
+      return place;
+    });
 
     return {
       ...state,
       selectedPlace: null,
       selectedPlaces,
+      errorMessage: null,
     };
+  },
+  [ON_ERROR_SHOW_PLACE]: () => ({ ...state, errorMessage: error }),
+  [ON_DELETE_PLACE]: () => {
+    const selectedPlaces = [...state.selectedPlaces].filter(
+      (place) => place.place_id !== payload.place_id
+    );
+
+    return { ...state, selectedPlaces };
   },
 });
 

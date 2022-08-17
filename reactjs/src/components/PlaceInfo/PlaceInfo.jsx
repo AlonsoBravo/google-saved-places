@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   onSelectedPlace,
@@ -7,12 +7,17 @@ import {
 import './styles.css';
 
 const PlaceInfo = () => {
-  const [placeNote, setPlaceNote] = useState('');
-
   const selectedPlace = useSelector(
     ({ PlacesList }) => PlacesList.selectedPlace
   );
+
+  const [placeNote, setPlaceNote] = useState();
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setPlaceNote(selectedPlace?.placeNote);
+  }, [selectedPlace]);
 
   return (
     <div
@@ -38,7 +43,7 @@ const PlaceInfo = () => {
         <textarea
           id='place-info-note'
           placeholder='You can add a note...'
-          value={selectedPlace?.placeNote || placeNote}
+          value={placeNote}
           onChange={(e) => setPlaceNote(e.target.value)}
         />
         <button
