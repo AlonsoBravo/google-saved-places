@@ -26,6 +26,10 @@ const PlacesList = () => {
     ReactTooltip.rebuild();
   });
 
+  useEffect(() => {
+    localStorage.setItem('saved_places', JSON.stringify(selectedPlaces));
+  }, [selectedPlaces]);
+
   return (
     <div id='places-list-container'>
       <div id='place-list-search-box-container'>
@@ -106,12 +110,16 @@ const PlacesList = () => {
           ))
         )}
       </div>
-      <ReactTooltip id='pin-icon' type='info' place='right'>
-        <span>Show place in map</span>
-      </ReactTooltip>
-      <ReactTooltip id='trash-icon' type='warning' place='right'>
-        <span>Remove this place</span>
-      </ReactTooltip>
+      {selectedPlaces.length ? (
+        <div>
+          <ReactTooltip id='pin-icon' type='info' place='right'>
+            <span>Show place in map</span>
+          </ReactTooltip>
+          <ReactTooltip id='trash-icon' type='warning' place='right'>
+            <span>Remove this place</span>
+          </ReactTooltip>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -18,7 +18,7 @@ const onStateChange = ({ state, payload, error }) => ({
   [ON_START_LOAD_PLACES]: () => ({ ...state, onStartLoadPlaces: true }),
   [ON_SUCCESS_LOAD_PLACES]: () => ({
     ...state,
-    onSuccessLoadPlaces: false,
+    onStartLoadPlaces: false,
     selectedPlaces: payload,
   }),
   [ON_SELECTED_PLACE]: () => {
@@ -37,27 +37,31 @@ const onStateChange = ({ state, payload, error }) => ({
     return { ...state, selectedPlace: payload[0], errorMessage: null };
   },
   [ON_SAVE_PLACE]: () => {
-    if ([...state.selectedPlaces].length === 0) {
+    const isPlaceSaved = [...state.selectedPlaces].find(
+      (place) => place.place_id === payload.place_id
+    );
+
+    if (isPlaceSaved) {
+      const selectedPlaces = [...state.selectedPlaces].map((place) => {
+        if (place.place_id === payload.place_id) {
+          return { ...place, ...payload };
+        }
+
+        return place;
+      });
+
       return {
         ...state,
         selectedPlace: null,
-        selectedPlaces: [...state.selectedPlaces, payload],
+        selectedPlaces,
+        errorMessage: null,
       };
     }
-
-    const selectedPlaces = [...state.selectedPlaces].map((place) => {
-      if (place.place_id === payload.place_id) {
-        return { ...place, ...payload };
-      }
-
-      return place;
-    });
 
     return {
       ...state,
       selectedPlace: null,
-      selectedPlaces,
-      errorMessage: null,
+      selectedPlaces: [...state.selectedPlaces, payload],
     };
   },
   [ON_ERROR_SHOW_PLACE]: () => ({ ...state, errorMessage: error }),

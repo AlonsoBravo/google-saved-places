@@ -12,7 +12,10 @@ export const onSelectedPlace = (payload) => ({
 
 export const onSavePlace = (payload) => ({ type: ON_SAVE_PLACE, payload });
 
-export const onSuccessLoadPlaces = () => ({ type: ON_SUCCESS_LOAD_PLACES });
+export const onSuccessLoadPlaces = (payload) => ({
+  type: ON_SUCCESS_LOAD_PLACES,
+  payload,
+});
 
 export const onStartLoadPlaces = () => ({ type: ON_START_LOAD_PLACES });
 
