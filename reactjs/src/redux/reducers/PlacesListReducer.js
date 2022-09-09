@@ -7,6 +7,8 @@ import {
   ON_ERROR_SHOW_PLACE,
 } from '../actions/PlacesListActions';
 
+console.log('hola');
+
 const INITIAL_STATE = {
   onStartLoadPlaces: false,
   selectedPlace: null,
